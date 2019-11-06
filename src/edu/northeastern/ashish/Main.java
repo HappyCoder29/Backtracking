@@ -1,5 +1,8 @@
 package edu.northeastern.ashish;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -10,8 +13,22 @@ public class Main {
        // Combinations("ABCD");
 
        // generateAllSubsets("ABC");
-        int[] arr = {1,1,5,3,2,4};
-        generateAllSequenceSumEqualToK(arr, 5);
+       // int[] arr = {1,1,5,3,2,4};
+       // generateAllSequenceSumEqualToK(arr, 5);
+
+       // permutations("ABC");
+
+//        List<String> list = generateParenthesis(2);
+//        for (String str : list) {
+//            System.out.println(str);
+//
+//        }
+
+      //  generateParenthesis1(2);
+
+        System.out.println(fibonacchiRecursive(50));
+
+
 
     }
 
@@ -83,7 +100,7 @@ public class Main {
     public static void Combinations(String str, int[] result,  int current){
 
         if(current == str.length()){
-            PrintCombinations(str, result);
+            printCombinations(str, result);
             // print and return
             return;
         }
@@ -106,7 +123,7 @@ public class Main {
     public static void Combinations(String str, int[] result,  int current, int size){
 
         if(current == size){
-            PrintCombinations(str, result);
+            printCombinations(str, result);
             // print and return
             return;
         }
@@ -118,7 +135,7 @@ public class Main {
 
     }
 
-    static void PrintCombinations(String str, int[] result){
+    static void printCombinations(String str, int[] result){
         char[] arr = str.toCharArray();
         for(int i = 0 ; i < result.length ; i ++){
             System.out.print(arr[result[i]] + " ");
@@ -202,6 +219,142 @@ public class Main {
             System.out.println(sb.toString());
 
     }
+
+    public static  void permutations(String str){
+        if(str.length() == 0){
+            return;
+        }
+
+        int[] result = new int[str.length()];
+
+        permutations(str, result, 0);
+
+
+    }
+
+    static  void permutations(String str, int[] result, int current){
+
+        if(current == result.length){
+            printCombinations(str, result);
+            return;
+        }
+
+        for(int i = 0 ; i < str.length(); i ++){
+            if(isValidPermutation(result, current, i)){
+                result[current] = i;
+                permutations(str, result, current +1);
+
+            }
+
+        }
+
+    }
+
+    static  boolean isValidPermutation(int[] result, int current, int num){
+
+        for(int i = 0 ; i < current; i ++){
+            if(result[i] == num )
+                return  false;
+
+        }
+        return  true;
+
+    }
+
+    public static List<String> generateParenthesis(int n){
+        List<String> combinations = new ArrayList<String>();
+        char[] arr = new char[n*2];
+        generateParenthesis(arr, 0, combinations);
+        return  combinations;
+    }
+
+    static void generateParenthesis( char[] arr, int current, List<String> result){
+
+        if(current == arr.length){
+            // check if this is valid combination
+            if(isValidParenthesis(arr))
+                result.add(new String(arr));
+        }else{
+            arr[current] = '(';
+            generateParenthesis(arr, current +1, result);
+            arr[current] = ')';
+            generateParenthesis(arr, current +1, result);
+        }
+
+    }
+    static  void generateParenthesis1(int n){
+
+        char[] arr = new char[n*2];
+        generateParenthesis1(arr, 0);
+
+    }
+    static void generateParenthesis1( char[] arr, int current){
+
+        if(current == arr.length) {
+            // check if this is valid combination
+            if (isValidParenthesis(arr)){
+                // Print
+                System.out.println(new String(arr));
+            }
+            return;
+        }
+
+        arr[current] = '(';
+        generateParenthesis1(arr, current +1);
+        arr[current] = ')';
+        generateParenthesis1(arr, current +1);
+    }
+
+
+    static  boolean isValidParenthesis(char[] arr){
+        int balance = 0;
+        for (char ch: arr) {
+            if(ch == '(')
+                balance ++;
+            else
+                balance --;
+
+            if(balance <0)
+                return  false;
+
+        }
+        return  balance == 0;
+    }
+
+    static int  fibonacchiRecursive(int n){
+
+        if(n <= 1){
+            //System.out.println(n);
+            return n;
+        }
+
+        return fibonacchiRecursive(n-1) + fibonacchiRecursive(n-2);
+
+    }
+
+    static long fibonacchiIterative(int n){
+
+        if(n <= 1){
+            return  n;
+        }
+
+        long[] result = new long[n+1];
+        result[0] = 0;
+        result[1] = 1;
+
+        for(int i = 2; i < result.length; i ++){
+            result[i] = result[i-1] + result[i-2];
+        }
+
+        return result[n];
+
+
+    }
+
+
+
+
+
 
 
 }
